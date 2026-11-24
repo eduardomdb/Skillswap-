@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSwap - Inicio</title>
+  <link rel="stylesheet" href="./css/inicio.css">
+</head>
+<body>
+
+  <header class="barra-superior">
+    <button type="button" id="btn-menu" class="btn-menu" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <button type="button" id="btn-icono-perfil" class="icono-perfil" title="Mi perfil" aria-label="Ir a mi perfil">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+      </svg>
+    </button>
+  </header>
+
+  <div class="zona-trabajo">
+    <aside id="menu-lateral" class="menu-lateral">
+      <button type="button" id="btn-opcion-2" class="btn-menu-lateral">Mi perfil</button>
+      <button type="button" id="btn-opcion-reporte" class="btn-menu-lateral">Reporte</button>
+    </aside>
+
+    <main class="contenido">
+      <h1 id="titulo-bienvenida" class="bienvenida">Bienvenido a SkillSwap</h1>
+      <p class="subtitulo">Aprende algo nuevo y comparte lo que sabes con otros estudiantes</p>
+
+      <form class="barra-busqueda" id="form-buscar">
+        <input type="text" id="input-buscar" placeholder="¿Qué habilidad buscas aprender? (Ej. Inglés, Cálculo...)">
+        <button type="submit" class="btn-buscar">Buscar</button>
+      </form>
+
+      <section class="card-publicar-visible">
+        <h3>📢 Publica tu oferta de intercambio</h3>
+        <p>¿Qué enseñas y qué quieres aprender hoy?</p>
+        <form id="form-publicar-directo" class="form-publicar-grid">
+          <input type="text" id="publicar-ensena" placeholder="Ej. Enseño Programación en C" required>
+          <input type="text" id="publicar-busca" placeholder="Ej. Busco aprender Figma" required>
+          <button type="submit" class="btn-publicar-directo">Publicar mi habilidad</button>
+        </form>
+      </section>
+
+      <h2 class="subseccion">Estudiantes recomendados</h2>
+      <div id="lista-estudiantes" class="grid-estudiantes"></div>
+    </main>
+  </div>
+
+  <script src="./js/inicio.js"></script>
+</body>
+</html>
