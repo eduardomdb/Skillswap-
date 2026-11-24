@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSwap - Iniciar sesión</title>
+  <link rel="stylesheet" href="./css/index.css">
+</head>
+<body class="auth-body">
+
+  <main class="auth-card">
+    <header class="auth-header">
+      <!-- Logo más grande -->
+      <img src="./assets/logo.jpeg" alt="Logo SkillSwap" class="auth-logo">
+      <h1>SkillSwap</h1>
+      <p class="auth-tagline">Intercambia habilidades, conecta con otros estudiantes</p>
+    </header>
+
+    <form id="loginForm" class="auth-form">
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <!-- Agregado autocomplete para solucionar la advertencia -->
+        <input type="email" id="email" autocomplete="email" placeholder="nombre@utepsa.edu.bo" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <!-- Agregado autocomplete para solucionar la advertencia -->
+        <input type="password" id="password" autocomplete="current-password" placeholder="Ingresa tu contraseña" required>
+      </div>
+
+      <button type="submit" class="btn-primario">Iniciar sesión</button>
+    </form>
+
+    <div class="auth-divider">
+      <span>o</span>
+    </div>
+
+    <button type="button" id="btn-invitado" class="btn-secundario">
+      Ingresar como invitado
+    </button>
+
+    <p class="auth-footer">
+      ¿Aún no tienes cuenta? <a href="registro.html">Regístrate aquí</a>
+    </p>
+  </main>
+
+  <script src="./js/login.js"></script>
+</body>
+</html>
