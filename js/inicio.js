@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const formPublicarDirecto = document.getElementById("form-publicar-directo");
 
-  renderizarEstudiantes(obtenerEstudiantes());
+  // Renderizamos solo los estudiantes que ya tienen habilidades publicadas
+  renderizarEstudiantes(obtenerEstudiantesPublicados());
 
   if (btnMenu && menuLateral) {
     btnMenu.addEventListener("click", () => {
@@ -21,17 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  if (btnMiPerfil) {
-    btnMiPerfil.addEventListener("click", () => {
-      window.location.href = "perfil.html";
-    });
-  }
+  const irAMiPerfil = () => {
+    localStorage.removeItem("perfilSeleccionado");
+    window.location.href = "perfil.html";
+  };
 
-  if (btnIconoPerfil) {
-    btnIconoPerfil.addEventListener("click", () => {
-      window.location.href = "perfil.html";
-    });
-  }
+  if (btnMiPerfil) btnMiPerfil.addEventListener("click", irAMiPerfil);
+  if (btnIconoPerfil) btnIconoPerfil.addEventListener("click", irAMiPerfil);
 
   if (btnReporte) {
     btnReporte.addEventListener("click", () => {
@@ -51,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+      let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
 
       if (!usuarioActivo) {
         alert("Debes iniciar sesión para publicar un intercambio.");
@@ -59,21 +56,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const nuevaPublicacion = {
-        ...usuarioActivo,
-        id: Date.now(),
-        ensena: nuevoEnsena,
-        busca: nuevoBusca
-      };
+      // Actualizamos las habilidades del usuario activo
+      usuarioActivo.ensena = nuevoEnsena;
+      usuarioActivo.busca = nuevoBusca;
 
-      const estudiantes = obtenerEstudiantes();
-      estudiantes.push(nuevaPublicacion);
+      localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
+
+      let estudiantes = obtenerEstudiantes();
+      const index = estudiantes.findIndex(est => est.correo === usuarioActivo.correo);
+      
+      if (index !== -1) {
+        estudiantes[index] = usuarioActivo;
+      } else {
+        estudiantes.push(usuarioActivo);
+      }
+
       localStorage.setItem("estudiantes", JSON.stringify(estudiantes));
 
-      alert("¡Habilidad publicada con éxito en el tablón!");
+      alert("¡Habilidad publicada y perfil actualizado con éxito!");
       formPublicarDirecto.reset();
       
-      renderizarEstudiantes(estudiantes);
+      renderizarEstudiantes(obtenerEstudiantesPublicados());
     });
   }
 
@@ -81,9 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
     formBuscar.addEventListener("submit", (e) => {
       e.preventDefault();
       const termino = inputBuscar.value.toLowerCase().trim();
-      const estudiantes = obtenerEstudiantes();
+      const publicados = obtenerEstudiantesPublicados();
 
-      const filtrados = estudiantes.filter((est) => {
+      const filtrados = publicados.filter((est) => {
         const matchEnsena = est.ensena && est.ensena.toLowerCase().includes(termino);
         const matchBusca = est.busca && est.busca.toLowerCase().includes(termino);
         const matchNombre = est.nombre && est.nombre.toLowerCase().includes(termino);
@@ -98,6 +101,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function obtenerEstudiantes() {
   return JSON.parse(localStorage.getItem("estudiantes")) || [];
+}
+
+// Filtra para que solo aparezcan usuarios que ya configuraron qué enseñan y buscan
+function obtenerEstudiantesPublicados() {
+  return obtenerEstudiantes().filter(
+    (est) => est.ensena && est.ensena.trim() !== "" && est.busca && est.busca.trim() !== ""
+  );
 }
 
 function inicializarDatosPrueba() {

@@ -18,10 +18,10 @@ formRegistro.addEventListener("submit", function (e) {
       correo,
       password,
       numero,
-      ensena: "A configurar (Crear solicitud)",
-      busca: "A configurar (Crear solicitud)",
-      dias,
-      turno,
+      ensena: "", // Limpio para configurarse desde el inicio o perfil
+      busca: "",  // Limpio para configurarse desde el inicio o perfil
+      dias: dias || "Flexible",
+      turno: turno || "A convenir",
       foto: fotoBase64
     };
 

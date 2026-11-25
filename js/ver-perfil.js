@@ -2,37 +2,55 @@ document.addEventListener("DOMContentLoaded", () => {
   const perfilData = JSON.parse(localStorage.getItem("perfilSeleccionado"));
 
   if (!perfilData) {
-    alert("No se encontró información de este perfil.");
-    window.location.href = "inicio.html";
+    const contenedorSinPerfil = document.getElementById("sin-perfil");
+    const contenidoPerfil = document.getElementById("contenido-perfil");
+    if (contenedorSinPerfil) contenedorSinPerfil.style.display = "block";
+    if (contenidoPerfil) contenidoPerfil.style.display = "none";
     return;
   }
 
-  const zonaFoto = document.getElementById("zona-foto");
-  const elNombre = document.getElementById("dato-nombre");
-  const elCorreo = document.getElementById("dato-correo");
-  const elNumero = document.getElementById("dato-numero");
-  const elEnsena = document.getElementById("dato-ensena");
-  const elBusca = document.getElementById("dato-busca");
-  const elDias = document.getElementById("dato-dias");
-  const elTurno = document.getElementById("dato-turno");
 
-  if (elNombre) elNombre.textContent = perfilData.nombre || "No especificado";
-  if (elCorreo) elCorreo.textContent = perfilData.correo || "No especificado";
-  if (elNumero) elNumero.textContent = perfilData.numero || "No especificado";
+  const elNombre = document.getElementById("perfil-nombre");
+  const elCorreo = document.getElementById("perfil-correo");
+  const elTelefono = document.getElementById("perfil-telefono");
+  const elEnsena = document.getElementById("lista-ensena");
+  const elBusca = document.getElementById("lista-busca");
+  const elDisponibilidad = document.getElementById("caja-disponibilidad-cuerpo");
+  
+  const perfilFoto = document.getElementById("perfil-foto");
+  const perfilAvatarDefecto = document.getElementById("perfil-avatar-defecto");
+
+  if (elNombre) elNombre.textContent = perfilData.nombre || "Nombre no especificado";
+  if (elCorreo) elCorreo.textContent = perfilData.correo ? `Correo: ${perfilData.correo}` : "Correo no especificado";
+  if (elTelefono) elTelefono.textContent = (perfilData.telefono || perfilData.numero) ? `Número: ${perfilData.telefono || perfilData.numero}` : "Número no especificado";
+  
   if (elEnsena) elEnsena.textContent = perfilData.ensena || "No especificado";
   if (elBusca) elBusca.textContent = perfilData.busca || "No especificado";
-  if (elDias) elDias.textContent = perfilData.dias || "Flexible";
-  if (elTurno) elTurno.textContent = perfilData.turno || "A convenir";
+  
+  if (elDisponibilidad) {
+    const dias = perfilData.dias || "Flexible";
+    const turno = perfilData.turno || "A convenir";
+    elDisponibilidad.textContent = `Días disponibles: ${dias} | Horario: ${turno}`;
+  }
 
-  if (zonaFoto) {
-    if (perfilData.foto) {
-      zonaFoto.innerHTML = `<img src="${perfilData.foto}" alt="${perfilData.nombre}" class="foto-perfil-real">`;
+  if (perfilData.foto && perfilFoto && perfilAvatarDefecto) {
+    perfilFoto.src = perfilData.foto;
+    perfilFoto.style.display = "block";
+    perfilAvatarDefecto.style.display = "none";
+  } else if (perfilAvatarDefecto) {
+    perfilAvatarDefecto.style.display = "flex";
+    if (perfilFoto) perfilFoto.style.display = "none";
+  }
+
+  const btnEditar = document.getElementById("btn-editar-perfil");
+  if (btnEditar) {
+    const usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+    if (usuarioActivo && usuarioActivo.id !== perfilData.id) {
+      btnEditar.style.display = "none";
     } else {
-      const inicial = perfilData.nombre ? perfilData.nombre.charAt(0).toUpperCase() : "U";
-      zonaFoto.innerHTML = `
-        <div class="avatar-inicial-grande">
-          <span>${inicial}</span>
-        </div>`;
+      btnEditar.addEventListener("click", () => {
+        window.location.href = "editar-perfil.html";
+      });
     }
   }
 });

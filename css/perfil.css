@@ -6,8 +6,8 @@
 }
 
 body {
-  background-color: #f3f4f6;
-  color: #1f2937;
+  background-color: #f1f5f9;
+  color: #0f172a;
   min-height: 100vh;
 }
 
@@ -26,6 +26,7 @@ body {
   font-size: 0.9rem;
   opacity: 0.9;
 }
+
 .btn-inicio {
   background-color: rgba(255, 255, 255, 0.08);
   color: #e2e8f0;
@@ -52,7 +53,7 @@ body {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background-color: #cbd5e1;
+  background-color: #2563eb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,7 +62,7 @@ body {
 .icono-perfil-top svg {
   width: 20px;
   height: 20px;
-  fill: #475569;
+  fill: #ffffff;
 }
 
 .perfil-contenedor {
@@ -80,14 +81,14 @@ body {
 
 .perfil-titulo {
   font-size: 1.85rem;
-  font-weight: 500;
-  color: #111827;
+  font-weight: 600;
+  color: #0f172a;
   margin-bottom: 6px;
 }
 
 .perfil-subtitulo {
   font-size: 0.95rem;
-  color: #4b5563;
+  color: #64748b;
 }
 
 .btn-editar {
@@ -99,6 +100,7 @@ body {
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .btn-editar:hover {
@@ -107,12 +109,14 @@ body {
 
 .tarjeta-datos {
   background-color: #ffffff;
-  border: 1px solid #d1d5db;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
   padding: 24px 32px;
   display: flex;
   align-items: center;
   gap: 36px;
   margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .zona-avatar {
@@ -135,12 +139,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f1f5f9;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
 }
 
 .perfil-avatar-defecto svg {
-  width: 105px;
-  height: 105px;
-  fill: #1f2937;
+  width: 55px;
+  height: 55px;
+  fill: #64748b;
 }
 
 .info-usuario {
@@ -151,14 +158,14 @@ body {
 
 .nombre-usuario {
   font-size: 1.45rem;
-  font-weight: 500;
-  color: #111827;
+  font-weight: 600;
+  color: #0f172a;
   margin-bottom: 4px;
 }
 
 .linea-info {
   font-size: 0.95rem;
-  color: #374151;
+  color: #475569;
 }
 
 .grid-habilidades {
@@ -170,15 +177,18 @@ body {
 
 .caja-seccion {
   background-color: #ffffff;
-  border: 1px solid #d1d5db;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .caja-header {
   background-color: #172554;
   color: #ffffff;
   font-size: 0.95rem;
-  font-weight: 500;
-  padding: 11px 18px;
+  font-weight: 600;
+  padding: 12px 18px;
 }
 
 .caja-cuerpo {
@@ -187,33 +197,34 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items:center;
+  align-items: center;
   gap: 18px;
-  color: #1f2937;
+  color: #0f172a;
   font-size: 0.95rem;
 }
 
 .item-habilidad {
-  color: #1f2937;
+  color: #0f172a;
   font-size: 0.95rem;
 }
 
 .linea-disponibilidad {
   width: 100%;
   font-size: 0.95rem;
-  color: #1f2937;
+  color: #0f172a;
   line-height: 1.5;
 }
 
 .sin-perfil {
   background-color: #ffffff;
-  border: 1px solid #d1d5db;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
   padding: 24px;
-  color: #4b5563;
+  color: #64748b;
+  text-align: center;
 }
 
-/* Línea 207: Adaptación a pantallas pequeñas */
-@media (max-width: 768px) {
+ @media (max-width: 768px) {
   .perfil-encabezado {
     flex-direction: column;
     align-items: stretch;

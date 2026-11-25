@@ -5,25 +5,149 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkillSwap - Reportar un problema</title>
   <link rel="stylesheet" href="./css/reporte.css">
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-dark: #172554;
+      --dark: #0F172A;
+      --gray: #64748B;
+      --white: #FFFFFF;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0e7ff 0%, #bfdbfe 45%, #93c5fd 100%) !important;
+      background-attachment: fixed !important;
+      min-height: 100vh;
+    }
+
+    .reporte-contenedor {
+      max-width: 650px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .tarjeta-reporte-box,
+    .caja-aviso,
+    #form-reporte-pagina {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(23, 37, 84, 0.08);
+      border: 1px solid #cbd5e1;
+    }
+
+    .caja-aviso {
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .icono-admiracion {
+      background-color: #fef08a;
+      color: #854d0e;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    #form-reporte-pagina {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .grupo-campo {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .grupo-campo label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .grupo-campo textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .grupo-campo textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .acciones-finales {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn-cancelar {
+      background-color: #f1f5f9;
+      color: var(--dark);
+      border: 1px solid #cbd5e1;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-cancelar:hover {
+      background-color: #e2e8f0;
+    }
+
+    .btn-enviar {
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-enviar:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
 </head>
 <body>
 
-  <header class="barra-superior">
-    <button type="button" onclick="window.location.href='inicio.html'" class="btn-volver" title="Volver a inicio">← Inicio</button>
-    <div class="icono-perfil-top" title="SkillSwap">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
+  <header class="barra-superior" style="background-color: #172554; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 6px rgba(23, 37, 84, 0.2);">
+    <button type="button" onclick="window.location.href='inicio.html'" class="btn-volver" style="background-color: rgba(255, 255, 255, 0.12); color: #fff; border: none; border-radius: 6px; padding: 8px 16px; font-size: 14px; font-weight: 600; cursor: pointer;">← Inicio</button>
+    <div class="icono-perfil-top" title="SkillSwap" style="color: #fff;">
+      <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; fill: currentColor;">
         <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
       </svg>
     </div>
   </header>
 
   <main class="reporte-contenedor">
-    <h1 class="reporte-titulo">Reportar un problema</h1>
-    <p class="reporte-subtitulo">Ayúdanos a mantener una comunidad segura y respetuosa</p>
+    <h1 class="reporte-titulo" style="font-size: 26px; font-weight: 700; color: #172554; margin-bottom: 4px;">Reportar un problema</h1>
+    <p class="reporte-subtitulo" style="font-size: 14px; color: #334155; margin-bottom: 20px;">Ayúdanos a mantener una comunidad segura y respetuosa</p>
 
     <div class="caja-aviso">
       <div class="icono-admiracion">!</div>
-      <p>Si consideras que hay un comportamiento inapropiado o un fallo en el sistema, puedes reportarlo aquí. Nuestro equipo revisará el caso.</p>
+      <p style="font-size: 14px; color: #0F172A; line-height: 1.5;">Si consideras que hay un comportamiento inapropiado o un fallo en el sistema, puedes reportarlo aquí. Nuestro equipo revisará el caso.</p>
     </div>
 
     <form id="form-reporte-pagina">
@@ -33,7 +157,7 @@
       </div>
 
       <div class="acciones-finales">
-        <button type="button" id="btn-cancelar-reporte" class="btn-cancelar">Cancelar</button>
+        <button type="button" id="btn-cancelar-reporte" class="btn-cancelar" onclick="window.location.href='inicio.html'">Cancelar</button>
         <button type="submit" id="btn-enviar-reporte" class="btn-enviar">Enviar reporte</button>
       </div>
     </form>

@@ -1,198 +1,81 @@
-const sinUsuario = document.getElementById("sin-usuario");
-const formEditar = document.getElementById("form-editar");
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Buscamos el usuario activo de forma segura
+  let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivo"));
+  let estudiantes = JSON.parse(localStorage.getItem("estudiantes")) || [];
 
-const editFotoPreview = document.getElementById("edit-foto-preview");
-const editAvatarDefecto = document.getElementById("edit-avatar-defecto");
-const inputFoto = document.getElementById("input-foto");
-
-const editNombre = document.getElementById("edit-nombre");
-const editCorreo = document.getElementById("edit-correo");
-const editNumero = document.getElementById("edit-numero");
-
-const chipsEnsena = document.getElementById("chips-ensena");
-const chipsBusca = document.getElementById("chips-busca");
-const listaHorarios = document.getElementById("lista-horarios");
-
-const btnAgregarEnsena = document.getElementById("btn-agregar-ensena");
-const btnAgregarBusca = document.getElementById("btn-agregar-busca");
-const btnAgregarHorario = document.getElementById("btn-agregar-horario");
-const btnCancelar = document.getElementById("btn-cancelar");
-
-const editEnsena = document.getElementById("edit-ensena");
-const editBusca = document.getElementById("edit-busca");
-const editDias = document.getElementById("edit-dias");
-const editTurno = document.getElementById("edit-turno");
-
-let estudiantes = JSON.parse(localStorage.getItem("skillswap_estudiantes")) || [];
-let ultimoUsuario = JSON.parse(localStorage.getItem("skillswap_usuario_actual"));
-
-if (!ultimoUsuario && estudiantes.length > 0) {
-  ultimoUsuario = estudiantes[estudiantes.length - 1];
-}
-
-let fotoActualBase64 = ultimoUsuario ? (ultimoUsuario.foto || "") : "";
-
-function separarTexto(texto) {
-  if (!texto) return [];
-  return texto
-    .split(/,| y /i)
-    .map(function (t) {
-      return t.trim();
-    })
-    .filter(function (t) {
-      return Boolean(t);
-    });
-}
-
-function pintarListaChips(contenedor, items) {
-  if (!contenedor) return;
-  contenedor.innerHTML = "";
-  items.forEach(function (item) {
-    const span = document.createElement("span");
-    span.className = "chip-item";
-    span.textContent = item;
-    contenedor.appendChild(span);
-  });
-}
-
-function renderizarChips() {
-  const ensenaItems = separarTexto(editEnsena ? editEnsena.value : "");
-  pintarListaChips(chipsEnsena, ensenaItems);
-
-  const buscaItems = separarTexto(editBusca ? editBusca.value : "");
-  pintarListaChips(chipsBusca, buscaItems);
-
-  if (listaHorarios) {
-    listaHorarios.innerHTML = "";
-    const diasTexto = editDias ? editDias.value.trim() : "";
-    const turnoTexto = editTurno ? editTurno.value.trim() : "";
-
-    if (diasTexto) {
-      const divDias = document.createElement("div");
-      divDias.textContent = diasTexto;
-      listaHorarios.appendChild(divDias);
-    }
-
-    if (turnoTexto) {
-      const divTurno = document.createElement("div");
-      divTurno.textContent = turnoTexto;
-      listaHorarios.appendChild(divTurno);
-    }
+  // Si no hay sesión iniciada pero existen estudiantes, tomamos el primero para evitar la pantalla en blanco
+  if (!usuarioActivo && estudiantes.length > 0) {
+    usuarioActivo = estudiantes[0];
+    localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
   }
-}
 
-if (!ultimoUsuario) {
-  if (sinUsuario) sinUsuario.style.display = "block";
-  if (formEditar) formEditar.style.display = "none";
-} else {
-  if (sinUsuario) sinUsuario.style.display = "none";
+  const contenedorSinUsuario = document.getElementById("sin-usuario");
+  const formEditar = document.getElementById("form-editar");
+
+  // Si de plano no hay nadie, mostramos el aviso
+  if (!usuarioActivo) {
+    if (contenedorSinUsuario) contenedorSinUsuario.style.display = "block";
+    if (formEditar) formEditar.style.display = "none";
+    return;
+  }
+
+  // 2. Forzamos la visualización del formulario ocultando el aviso
+  if (contenedorSinUsuario) contenedorSinUsuario.style.display = "none";
   if (formEditar) formEditar.style.display = "block";
 
-  if (editNombre) editNombre.value = ultimoUsuario.nombre || "";
-  if (editCorreo) editCorreo.value = ultimoUsuario.correo || "";
-  if (editNumero) editNumero.value = ultimoUsuario.numero || "";
-  if (editEnsena) editEnsena.value = ultimoUsuario.ensena || "";
-  if (editBusca) editBusca.value = ultimoUsuario.busca || "";
-  if (editDias) editDias.value = ultimoUsuario.dias || "";
-  if (editTurno) editTurno.value = ultimoUsuario.turno || "";
+  // 3. Capturamos los inputs del DOM
+  const inputNombre = document.getElementById("edit-nombre");
+  const inputCorreo = document.getElementById("edit-correo");
+  const inputNumero = document.getElementById("edit-numero");
+  const inputDias = document.getElementById("edit-dias");
+  const inputTurno = document.getElementById("edit-turno");
+  const inputEnsena = document.getElementById("edit-ensena");
+  const inputBusca = document.getElementById("edit-busca");
 
-  if (fotoActualBase64 && editFotoPreview && editAvatarDefecto) {
-    editFotoPreview.src = fotoActualBase64;
-    editFotoPreview.style.display = "block";
-    editAvatarDefecto.style.display = "none";
+  // 4. Rellenamos los campos con los datos actuales
+  if (inputNombre) inputNombre.value = usuarioActivo.nombre || "";
+  if (inputCorreo) inputCorreo.value = usuarioActivo.correo || "";
+  if (inputNumero) inputNumero.value = usuarioActivo.telefono || usuarioActivo.numero || "";
+  if (inputDias) inputDias.value = usuarioActivo.dias || "";
+  if (inputTurno) inputTurno.value = usuarioActivo.turno || "";
+  if (inputEnsena) inputEnsena.value = usuarioActivo.ensena || "";
+  if (inputBusca) inputBusca.value = usuarioActivo.busca || "";
+
+  // 5. Botón cancelar
+  const btnCancelar = document.getElementById("btn-cancelar");
+  if (btnCancelar) {
+    btnCancelar.addEventListener("click", () => {
+      window.location.href = "perfil.html";
+    });
   }
 
-  renderizarChips();
-}
+  // 6. Guardar cambios
+  if (formEditar) {
+    formEditar.addEventListener("submit", (e) => {
+      e.preventDefault();
 
-if (inputFoto) {
-  inputFoto.addEventListener("change", function () {
-    const archivo = inputFoto.files && inputFoto.files[0];
-    if (!archivo) return;
-    const lector = new FileReader();
-    lector.onload = function (ev) {
-      fotoActualBase64 = ev.target.result;
-      if (editFotoPreview) {
-        editFotoPreview.src = fotoActualBase64;
-        editFotoPreview.style.display = "block";
+      usuarioActivo.nombre = inputNombre ? inputNombre.value : usuarioActivo.nombre;
+      usuarioActivo.correo = inputCorreo ? inputCorreo.value : usuarioActivo.correo;
+      usuarioActivo.telefono = inputNumero ? inputNumero.value : usuarioActivo.telefono;
+      usuarioActivo.dias = inputDias ? inputDias.value : usuarioActivo.dias;
+      usuarioActivo.turno = inputTurno ? inputTurno.value : usuarioActivo.turno;
+      usuarioActivo.ensena = inputEnsena ? inputEnsena.value : usuarioActivo.ensena;
+      usuarioActivo.busca = inputBusca ? inputBusca.value : usuarioActivo.busca;
+
+      // Actualizamos el usuario activo
+      localStorage.setItem("usuarioActivo", JSON.stringify(usuarioActivo));
+
+      // Actualizamos la lista general de estudiantes
+      const index = estudiantes.findIndex(e => e.correo === usuarioActivo.correo);
+      if (index !== -1) {
+        estudiantes[index] = usuarioActivo;
+      } else {
+        estudiantes.push(usuarioActivo);
       }
-      if (editAvatarDefecto) {
-        editAvatarDefecto.style.display = "none";
-      }
-    };
-    lector.readAsDataURL(archivo);
-  });
-}
+      localStorage.setItem("estudiantes", JSON.stringify(estudiantes));
 
-if (btnAgregarEnsena && editEnsena) {
-  btnAgregarEnsena.addEventListener("click", function () {
-    const nueva = prompt("Escribe una habilidad que puedas enseñar:");
-    if (nueva && nueva.trim()) {
-      const actual = editEnsena.value.trim();
-      editEnsena.value = actual ? actual + ", " + nueva.trim() : nueva.trim();
-      renderizarChips();
-    }
-  });
-}
-
-if (btnAgregarBusca && editBusca) {
-  btnAgregarBusca.addEventListener("click", function () {
-    const nueva = prompt("Escribe una habilidad que quieras aprender:");
-    if (nueva && nueva.trim()) {
-      const actual = editBusca.value.trim();
-      editBusca.value = actual ? actual + ", " + nueva.trim() : nueva.trim();
-      renderizarChips();
-    }
-  });
-}
-
-if (btnAgregarHorario && editTurno) {
-  btnAgregarHorario.addEventListener("click", function () {
-    const nuevoHorario = prompt("Escribe tu día y horario disponible (Ej: Sábado: 09:00 AM - 12:00 PM):");
-    if (nuevoHorario && nuevoHorario.trim()) {
-      const actual = editTurno.value.trim();
-      editTurno.value = actual ? actual + " | " + nuevoHorario.trim() : nuevoHorario.trim();
-      renderizarChips();
-    }
-  });
-}
-
-[editEnsena, editBusca, editDias, editTurno].forEach(function (inp) {
-  if (inp) {
-    inp.addEventListener("input", renderizarChips);
+      alert("¡Perfil actualizado con éxito!");
+      window.location.href = "perfil.html";
+    });
   }
 });
-
-if (btnCancelar) {
-  btnCancelar.addEventListener("click", function () {
-    window.location.href = "perfil.html";
-  });
-}
-
-if (formEditar) {
-  formEditar.addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (!ultimoUsuario) return;
-
-    const registroActualizado = {
-      id: ultimoUsuario.id,
-      nombre: editNombre ? editNombre.value.trim() : "",
-      correo: editCorreo ? editCorreo.value.trim() : "",
-      numero: editNumero ? editNumero.value.trim() : "",
-      ensena: editEnsena ? editEnsena.value.trim() : "",
-      busca: editBusca ? editBusca.value.trim() : "",
-      dias: editDias ? editDias.value.trim() : "",
-      turno: editTurno ? editTurno.value.trim() : "",
-      foto: fotoActualBase64
-    };
-
-    estudiantes = estudiantes.map(function (est) {
-      return est.id === registroActualizado.id ? registroActualizado : est;
-    });
-
-    localStorage.setItem("skillswap_estudiantes", JSON.stringify(estudiantes));
-    localStorage.setItem("skillswap_usuario_actual", JSON.stringify(registroActualizado));
-
-    window.location.href = "perfil.html";
-  });
-}
